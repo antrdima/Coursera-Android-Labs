@@ -1,0 +1,10 @@
+b)  Act1: onCreate, onStart, onResume, onPause, onStop
+    Act2: onCreate, onStart, onResume
+
+c)  Act2: onPause, onStop, onDestroy
+    Act1:  onRestart onStart onResume
+
+d)  Act1: onPause onStop
+    Act2: onCreate, onStart, onResume, pause, stop
+
+e)  Act2: restart start resume
