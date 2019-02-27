@@ -427,5 +427,7 @@
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp"
+        android:max="100"
+        android:theme="@style/MySeekBar"/>
 </LinearLayout>
