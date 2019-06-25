@@ -74,6 +74,8 @@ public class PlaceViewActivity extends ListActivity implements LocationListener 
             @Override
             public void onClick(View arg0) {
 
+                if (mLastLocationReading == null)
+                    return;
 
                 PlaceDownloaderTask placeDownloaderTask = new PlaceDownloaderTask(
                         PlaceViewActivity.this,
@@ -187,9 +189,10 @@ public class PlaceViewActivity extends ListActivity implements LocationListener 
         // current location.
         if (mLastLocationReading == null) {
             mLastLocationReading = currentLocation;
+            return;
         }
 
-        if (currentLocation.getTime() > mLastLocationReading.getTime())
+        if (currentLocation.getTime() < mLastLocationReading.getTime())
             return;
 
         mLastLocationReading = currentLocation;
