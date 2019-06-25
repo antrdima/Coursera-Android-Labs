@@ -79,7 +79,7 @@ public class PlaceViewActivity extends ListActivity implements LocationListener 
 
                 PlaceDownloaderTask placeDownloaderTask = new PlaceDownloaderTask(
                         PlaceViewActivity.this,
-                        true);
+                        sHasNetwork);
                 placeDownloaderTask.execute(mLastLocationReading);
             }
 
