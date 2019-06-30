@@ -8,10 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SelfieItemFragment.OnListFragmentInteractionListener {
 
-    @Override
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -20,14 +22,19 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.mipmap.ic_launcher);
+
+        Fragment itemFragment = new SelfieItemFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.fragment_container, itemFragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem takePhotoItem = menu.findItem(R.id.action_take_photo);
-
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -44,5 +51,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void TakePhoto() {
+    }
+
+    @Override
+    public void onListFragmentInteraction(SelfieItemContent.SelfieItem item) {
+        return;
     }
 }
