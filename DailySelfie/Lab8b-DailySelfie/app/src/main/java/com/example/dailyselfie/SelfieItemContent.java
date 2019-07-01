@@ -21,6 +21,10 @@ public class SelfieItemContent {
         ITEMS.clear();
     }
 
+    public static boolean isEmpty() {
+        return ITEMS.isEmpty();
+    }
+
     public static class SelfieItem {
 
         public final String name;

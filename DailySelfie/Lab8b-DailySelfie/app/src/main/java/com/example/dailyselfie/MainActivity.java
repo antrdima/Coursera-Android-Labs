@@ -47,14 +47,15 @@ public class MainActivity extends AppCompatActivity implements SelfieItemFragmen
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         transaction.replace(R.id.fragment_container, selfieItemFragment);
-        transaction.addToBackStack(null);
-
         transaction.commit();
 
         InitializeContent();
     }
 
     private void InitializeContent() {
+        if (!SelfieItemContent.isEmpty())
+            return;
+
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File[] imageFiles = storageDir.listFiles();
 
@@ -164,7 +165,6 @@ public class MainActivity extends AppCompatActivity implements SelfieItemFragmen
 
     @Override
     public void onListFragmentInteraction(SelfieItemContent.SelfieItem item) {
-
         return;
     }
 }
