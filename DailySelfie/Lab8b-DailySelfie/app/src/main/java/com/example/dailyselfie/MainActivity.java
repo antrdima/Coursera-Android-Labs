@@ -1,19 +1,20 @@
 package com.example.dailyselfie;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -30,6 +31,8 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements SelfieItemFragment.OnListFragmentInteractionListener {
 
     static final int REQUEST_TAKE_PHOTO = 1;
+    private static final long TWO_MIN = 2 * 60 * 1000;
+    private static final int MY_NOTIFICATION_ID = 1;
 
     String currentPhotoPath;
 
@@ -52,7 +55,9 @@ public class MainActivity extends AppCompatActivity implements SelfieItemFragmen
         transaction.commit();
 
         InitializeContent();
+        SetUpAlarm();
     }
+
 
     private void InitializeContent() {
         if (!SelfieItemContent.isEmpty())
@@ -64,6 +69,42 @@ public class MainActivity extends AppCompatActivity implements SelfieItemFragmen
         for (File imageFile : imageFiles) {
             addNewImageItem(imageFile.getAbsolutePath());
         }
+    }
+
+    private void SetUpAlarm() {
+        Notification notification = getNotification();
+        scheduleNotification(notification);
+    }
+
+    private void scheduleNotification(Notification notification) {
+
+        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, MY_NOTIFICATION_ID);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + TWO_MIN;
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME, futureInMillis, pendingIntent);
+    }
+
+    private Notification getNotification() {
+        final Intent restartMainActivityIntent = new Intent(this, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this,
+                MY_NOTIFICATION_ID,
+                restartMainActivityIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification.Builder notificationBuilder = new Notification.Builder(this)
+                .setContentTitle("Daily Selfie")
+                .setContentText("Time for another selfie")
+                .setSmallIcon(android.R.drawable.ic_menu_camera)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
+
+        return notificationBuilder.build();
     }
 
     @Override
