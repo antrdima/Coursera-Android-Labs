@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -155,16 +157,22 @@ public class MainActivity extends AppCompatActivity implements SelfieItemFragmen
 
     private void addNewImageItem(String path) {
         File imageFile = new File(path);
-        Bitmap imageBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
         String imageName = imageFile.getName();
 
         SelfieItemContent.SelfieItem selfieItem = SelfieItemContent.createSelfieItem(imageName,
-                imageBitmap);
+                path);
         SelfieItemContent.addItem(selfieItem);
     }
 
     @Override
     public void onListFragmentInteraction(SelfieItemContent.SelfieItem item) {
         return;
+    }
+
+    @Override
+    public void onImageClick(SelfieItemContent.SelfieItem item) {
+        Intent intent = new Intent(this, FullScreenImageActivity.class);
+        intent.putExtra("path", item.imagePath);
+        startActivity(intent);
     }
 }

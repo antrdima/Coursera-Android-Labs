@@ -100,5 +100,7 @@ public class SelfieItemFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
 
         void onListFragmentInteraction(SelfieItem item);
+
+        void onImageClick(SelfieItem item);
     }
 }

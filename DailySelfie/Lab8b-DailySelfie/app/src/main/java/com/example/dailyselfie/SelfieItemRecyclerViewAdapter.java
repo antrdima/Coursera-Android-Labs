@@ -1,15 +1,17 @@
 package com.example.dailyselfie;
 
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.dailyselfie.SelfieItemFragment.OnListFragmentInteractionListener;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.dailyselfie.SelfieItemContent.SelfieItem;
+import com.example.dailyselfie.SelfieItemFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 
@@ -32,17 +34,26 @@ public class SelfieItemRecyclerViewAdapter extends RecyclerView.Adapter<SelfieIt
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        Bitmap image = BitmapFactory.decodeFile(mValues.get(position).imagePath);
+
         holder.mItem = mValues.get(position);
-        holder.mImageView.setImageBitmap(mValues.get(position).imageBitmap);
+        holder.mImageView.setImageBitmap(image);
         holder.mDescriptionView.setText(mValues.get(position).name);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
+                }
+            }
+        });
+
+        holder.mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (null != mListener) {
+                    mListener.onImageClick(holder.mItem);
                 }
             }
         });

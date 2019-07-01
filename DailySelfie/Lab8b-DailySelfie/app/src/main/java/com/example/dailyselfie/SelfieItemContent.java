@@ -13,8 +13,8 @@ public class SelfieItemContent {
         ITEMS.add(item);
     }
 
-    public static SelfieItem createSelfieItem(String name, Bitmap imageBitmap) {
-        return new SelfieItem(name, imageBitmap);
+    public static SelfieItem createSelfieItem(String name, String path) {
+        return new SelfieItem(name, path);
     }
 
     public static void clearAllItems() {
@@ -28,11 +28,10 @@ public class SelfieItemContent {
     public static class SelfieItem {
 
         public final String name;
-        public final Bitmap imageBitmap;
+        public final String imagePath;
 
-        public SelfieItem(String name, Bitmap imageBitmap) {
+        public SelfieItem(String name, String imagePath) {
             this.name = name;
-            this.imageBitmap = imageBitmap;
-        }
+            this.imagePath = imagePath;        }
     }
 }
