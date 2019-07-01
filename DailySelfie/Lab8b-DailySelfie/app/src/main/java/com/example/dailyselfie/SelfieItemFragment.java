@@ -80,8 +80,15 @@ public class SelfieItemFragment extends Fragment {
     }
 
     public void notifyDataChanged() {
-        mAdapter.notifyDataSetChanged();
-        mRecyclerView.scrollToPosition(mAdapter.getItemCount());
+        if (mAdapter != null) {
+            mAdapter.notifyItemInserted(mAdapter.getItemCount());
+            mRecyclerView.scrollToPosition(mAdapter.getItemCount());
+        }
+    }
+
+    public void notifyClear() {
+        int size = mAdapter.getItemCount();
+        mAdapter.notifyItemRangeRemoved(0,size);
     }
 
     @Override

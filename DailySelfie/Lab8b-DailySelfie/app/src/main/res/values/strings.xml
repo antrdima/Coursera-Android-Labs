@@ -5,4 +5,5 @@
     <string name="logo">Logo</string>
     <string name="take_photo">Take photo</string>
     <string name="selfie">Selfie</string>
+    <string name="delete_all_selfies">Delete all selfies</string>
 </resources>

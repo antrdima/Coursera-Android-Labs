@@ -8,4 +8,9 @@
         android:icon="@android:drawable/ic_menu_camera"
         android:title="@string/take_photo"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_remove_selfies"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/delete_all_selfies"
+        app:showAsAction="ifRoom"/>
 </menu>

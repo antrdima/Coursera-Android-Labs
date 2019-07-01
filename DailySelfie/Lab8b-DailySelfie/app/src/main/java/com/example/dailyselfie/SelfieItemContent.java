@@ -17,6 +17,10 @@ public class SelfieItemContent {
         return new SelfieItem(name, imageBitmap);
     }
 
+    public static void clearAllItems() {
+        ITEMS.clear();
+    }
+
     public static class SelfieItem {
 
         public final String name;

@@ -76,13 +76,29 @@ public class MainActivity extends AppCompatActivity implements SelfieItemFragmen
             case R.id.action_take_photo:
                 TakePhoto();
                 return true;
+            case R.id.action_remove_selfies:
+                RemoveSelfies();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+
     private void TakePhoto() {
         dispatchTakePictureIntent();
+    }
+
+    private void RemoveSelfies() {
+        selfieItemFragment.notifyClear();
+        SelfieItemContent.clearAllItems();
+
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File[] imageFiles = storageDir.listFiles();
+
+        for (File imageFile : imageFiles) {
+            imageFile.delete();
+        }
     }
 
     private void dispatchTakePictureIntent() {
