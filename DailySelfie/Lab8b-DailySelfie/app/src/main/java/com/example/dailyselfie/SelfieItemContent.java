@@ -7,7 +7,7 @@ public class SelfieItemContent {
 
     public static final List<SelfieItem> ITEMS = new ArrayList<SelfieItem>();
 
-    private static final int COUNT = 5;
+    private static final int COUNT = 2;
 
     static {
         for (int i = 1; i <= COUNT; i++) {
