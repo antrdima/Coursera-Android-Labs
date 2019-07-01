@@ -2,6 +2,9 @@ package com.example.dailyselfie;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -9,19 +12,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.dailyselfie.SelfieItemContent.SelfieItem;
-
-import static androidx.recyclerview.widget.OrientationHelper.HORIZONTAL;
 
 public class SelfieItemFragment extends Fragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+
+    private SelfieItemRecyclerViewAdapter mAdapter;
+    private RecyclerView mRecyclerView;
 
     public SelfieItemFragment() {
         // Required empty public constructor
@@ -51,17 +51,18 @@ public class SelfieItemFragment extends Fragment {
 
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            mRecyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new SelfieItemRecyclerViewAdapter(SelfieItemContent.ITEMS, mListener));
+            mAdapter = new SelfieItemRecyclerViewAdapter(SelfieItemContent.ITEMS, mListener);
+            mRecyclerView.setAdapter(mAdapter);
 
             DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(),
                     DividerItemDecoration.VERTICAL);
-            recyclerView.addItemDecoration(itemDecor);
+            mRecyclerView.addItemDecoration(itemDecor);
         }
         return view;
     }
@@ -76,6 +77,11 @@ public class SelfieItemFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
+    }
+
+    public void notifyDataChanged() {
+        mAdapter.notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(mAdapter.getItemCount());
     }
 
     @Override

@@ -33,8 +33,8 @@ public class SelfieItemRecyclerViewAdapter extends RecyclerView.Adapter<SelfieIt
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mImageView.setImageResource(mValues.get(position).imageId);
-        holder.mDescriptionView.setText(mValues.get(position).details);
+        holder.mImageView.setImageBitmap(mValues.get(position).imageBitmap);
+        holder.mDescriptionView.setText(mValues.get(position).name);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
